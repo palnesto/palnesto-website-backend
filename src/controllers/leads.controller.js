@@ -42,3 +42,22 @@ export async function createLead(req, res, next) {
     next(error);
   }
 }
+
+export async function updateLead(req, res, next) {
+  try {
+    const { leadId } = req.params;
+    const lead = await Lead.findByIdAndUpdate(leadId, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!lead) {
+      res.status(404).json({ message: "Lead not found." });
+      return;
+    }
+
+    res.json({ lead });
+  } catch (error) {
+    next(error);
+  }
+}

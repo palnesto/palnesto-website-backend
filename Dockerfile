@@ -15,10 +15,8 @@ RUN npm install
 # Copy the application source
 COPY src ./src
 
-# IMPORTANT: The .env file lives at src/.env, but dotenv looks in the CWD (/app).
-# Copy it to the app root so dotenv finds it when running `node src/server.js`.
-# Security note: avoid baking secrets into images for production; prefer runtime env vars.
-COPY src/.env ./.env
+# Environment variables are expected at runtime (PORT, MONGODB_URI, CORS_ORIGIN, etc.).
+# Do not copy .env into the image; pass secrets via docker run -e ... or your orchestrator.
 
 # Expose the application port (default 4000 from env.js)
 EXPOSE 4000
